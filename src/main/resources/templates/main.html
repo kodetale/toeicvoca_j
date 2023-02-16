@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="index_wrap" class="wrap">    
+		<div class="main">
+      		<img src="/img/logo.png" width="70%">
+    		<th:block sec:authorize="hasRole('ROLE_USER')">
+      			<form id="start" action="study/option" method="GET">
+      				<select name="day" class="select">
+      				<th:block th:each="num : ${#numbers.sequence(1,30)}">
+						<option th:value="${num}" th:text="'DAY '+${num}"></option>
+					</th:block>
+     				</select>
+          			<p><input type="submit" value="퀴즈풀기" class="main_btn"></p>
+     			</form>
+     			
+     			<div class="main_bar">⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑⭒⭑</div>
+     			
+     			<form action="study/wrong" method="GET">
+        			<input type="hidden" name="day" value=1>
+        			<input type="hidden" name="page" value=1>
+        			<p><input type="submit" value="오답노트" class="main_btn"></p>
+        		</form>
+        		
+        		<p><a href="study/wrongoption" class="main_btn_a" onclick="return wrong_check()">오답퀴즈</a></p>
+        	</th:block>
+        
+        	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+      			<form id="start" action="admin/voca" method="get">
+      				<select name="day" class="select">
+      				<th:block th:each="num : ${#numbers.sequence(1,30)}">
+						<option th:value="${num}" th:text="'DAY'+${num}"></option>
+					</th:block>
+     				</select>
+          			<p><input type="submit" value="문제등록" class="main_btn"></p>
+     			</form>
+        	</th:block>
+     
+ 			<th:block sec:authorize="isAnonymous()">       
+        		<p><a href="member/login" class="main_btn_a">로그인</a></p>
+        		<p><a href="member/join" class="main_btn_a">회원가입</a></p>
+     		</th:block>
+     	</div>
+	</div>
+</div>
+
+<th:block layout:fragment="script">
+	<script>
+   
+	function wrong_check() {
+		  
+		  if([[${total}]] == 0) {
+		    alert("저장된 오답이 없습니다.");
+		    return false;
+		  }
+		}
+   		
+	</script>
+</th:block>
+</body>
+
+</html>

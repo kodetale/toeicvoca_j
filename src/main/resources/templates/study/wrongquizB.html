@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/style.css">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="quiz_wrap" class="wrap">
+    	<div>
+    		<div class="day">DAY [[${quiz.day}]]</div>
+    		<div class="q"><h3>[[${q}]]/[[${total}]]</h3></div>
+    		<h1>[[${quiz.voca}]]<button type="button" id="read"><img src="/img/read.png" width="23px" height="18px"></button></h1>
+			
+			<input type="text" id="ex">
+    		<input type="button" id="study_btn" class="main_btn" value="정답확인" onclick="checkAns()">
+    		
+    		<div id="answer" class="hide"> 
+      			<div class="answer">[[${quiz.answer}]]</div> 
+			</div>
+			
+			<div th:if="${q == total}" class="next_btn"><a href="/">오답퀴즈 완료 ></a></div>
+			<div th:unless="${q == total}" class="next_btn"><a th:href="@{/study/wrongquizB(q = ${q}+1)}">다음 ></a></div>
+ 		</div>
+  	</div>
+</div>
+
+ <th:block layout:fragment="script">
+    <script type="text/javascript">
+    	const read = document.getElementById("read")
+    	
+    	read.addEventListener("click", e => {
+      		speak('[[${quiz.voca}]]')
+    	})
+ 
+    	function speak(text) {
+      		if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
+          		alert("이 브라우저에서는 음성을 지원하지 않습니다")
+      		}
+      
+      		window.speechSynthesis.cancel()
+
+      		const speechMsg = new SpeechSynthesisUtterance()
+      		speechMsg.rate = 0.9   
+      		speechMsg.pitch = 1 
+      		speechMsg.lang = "en-US"
+      		speechMsg.text = text
+
+      		window.speechSynthesis.speak(speechMsg)
+  		}
+		
+		function checkAns() {
+			document.getElementById('answer').classList.add('reveal');
+		}
+		
+		$("#ex").keydown(function(key) {
+			if(key.keyCode == 13){
+			checkAns();
+			}
+		});
+    </script>
+ </th:block>
+</body>
+
+</html>

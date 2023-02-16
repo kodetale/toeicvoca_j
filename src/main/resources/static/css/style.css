@@ -1,0 +1,462 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'neodgm';
+  src: url('./neodgm.woff') format('woff');
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+body {
+  font-family: 'neodgm';
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to top left, #b4cbff, #fffbda);
+  background-attachment: fixed;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+ul {
+  padding-inline-start: 0px;
+}
+
+li {
+  list-style: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+/*전체 적용*/
+.wrap * {
+  font-family: 'neodgm';
+}
+
+.wrap {
+  width: 500px;
+  height: 600px;
+  margin: 20px auto 10px auto;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 767px) {
+  .wrap {
+    width: 380px;
+    height: 600px;
+  }
+
+  .top .return {
+    margin-top: 6px;
+  }
+
+  .wrap #w_day {
+    width: 100px;
+    position: absolute;
+    top: -265px;
+    left: -170px;
+  }
+
+  .wrap table {
+    width: 340px;
+  }
+  
+  table > td, tr {
+    height: 32px;
+  }
+
+  .main_btn {
+    width: 160px; 
+  }
+
+  .main_btn_a {
+    width: 160px;
+  }
+}
+
+@media (max-height: 660px) {
+  
+  .wrap {
+    width: 370px;
+    height: 500px;
+    margin: 40px auto 90px auto;
+  }
+
+  .wrap #w_day {
+    width: 100px;
+    position: absolute;
+    top: -245px;
+    left: -160px;
+  }
+  
+  .wrap table {
+    width: 320px;
+  }
+
+  .wrap table tr,td {
+    height: 30px;
+  }
+
+  .wrap .main_btn {
+    width: 160px; 
+  }
+
+  .wrap .main_btn_a {
+    width: 160px;
+  }
+
+  .wrap .select {
+    width: 160px;
+  }
+}
+
+/*header.html*/
+.top {
+  margin-top : 30px;
+  margin-bottom: 80px;
+}
+
+.return {
+  margin-top: 3px;
+  margin-left: 20px;
+  float : left;
+}
+
+.logout {
+  margin-right: 20px;
+  float : right;
+}
+
+.logout > a {
+  cursor: pointer;
+}
+
+/*main.html*/
+.wrap .main {
+  text-align: center;
+}
+
+.main_btn {
+  width: 180px;
+  height: 45px;
+  font-size: 15px;
+  border-style: none;
+  background: rgb(196,196,196);
+  box-shadow: 1px 1px black;
+  cursor: pointer;
+}
+
+.main_btn_a {
+  display: inline-block; 
+  width: 180px;
+  height: 45px;
+  line-height: 45px;
+  font-size: 15px;
+  background: rgb(196,196,196);
+  box-shadow: 1px 1px black;
+  cursor: pointer;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.select {
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+  background-color: white;
+  width: 180px;
+  height: 35px;
+  font-size: 15px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.main_bar {
+  font-size: 14px;
+}
+
+/*join.html*/
+.form_wrap > h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.wrap input[type=text], .wrap input[type=password] {
+  border: 1px solid #d9d9d9;
+  width: 300px;
+  height: 50px;
+  padding-left: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+.wrap .form p {
+  text-align: left;
+  margin-top: 4px;
+  margin-bottom: 3px;
+}
+
+.wrap .form_wrap .label {
+  margin-left: 4px;
+  margin-bottom: 7px;
+  display: inline-block;
+}
+
+.wrap .form_wrap .form_line {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.wrap .form_line .form_btn {
+  width: 180px;
+  height: 50px;
+  margin-top: 5px;
+  border: 0;
+  align-items: center;
+  background: rgb(196,196,196);
+  box-shadow: 1px 1px black;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.fieldError {
+	outline: 1px solid #ff5289;
+}
+    	
+.errorMsg {
+	font-size: 13px; 
+	font-style: italic; 
+	color: #ff5289;
+}
+
+#errorPwd {
+	opacity: 0%;
+}
+
+#errorName {
+	opacity: 0%;
+}
+
+.delete {
+  margin-top: 25px;
+  text-align: right;
+  cursor: pointer;
+}
+
+.wrap .form_wrap .loginError {
+ margin-bottom: 10px;
+ color: #ff5289;
+ text-align: center;
+}
+    	
+/*quiz.html*/
+.wrap .radio_btn {
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.day {
+  text-align: center;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-bottom: 16px;
+  width: 300px;
+  background-color: #ff9b9d;
+  font-size: 18px;
+  border-radius: 3px;
+}
+
+#read {
+  background-color: transparent; 
+  border: none;
+  cursor: pointer;
+}
+
+.list_ex {
+  margin-left: 0px;
+  margin-bottom: 30px;
+}
+
+.wrap .list_ex > div > label {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.wrap .list_ex > div > .o {
+  background: #38b635;
+  color: white;
+}
+
+.wrap .list_ex > div > .x {
+  background: #e74b4b;
+  color: white;
+}
+
+.wrap .q > h3 {
+  margin-block-start: 8px;
+  margin-block-end: 0px;
+}
+
+.wrap .voca {
+  text-align: center;
+  font-size: 35px;
+  margin-bottom: 30px;
+}
+
+#quiz_wrap input[type=text] {
+  width: 200px;
+  height: 30px;
+  font-size: 14px;
+}
+
+#study_btn {
+  width: 80px;
+  height: 30px;
+}
+
+#answer {
+  margin-top: 26px;
+  margin-bottom: 70px;
+  text-align: center;
+}
+
+.answer {
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+.next_btn {
+  text-align: right;
+}
+
+/*result.html*/
+.result {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+/*wrong.html*/
+.w_day {
+  position: absolute;
+}
+
+#w_day {
+  width: 100px;
+  position: absolute;
+  top: -265px;
+  left: -202px;
+}
+
+table {
+  width: 400px;
+  margin-top: 38px;;
+  border-collapse: collapse;
+  cursor: default;
+}
+
+table > td, tr {
+  border-bottom: 1px solid;
+  height: 36px;
+}
+
+.wrap .hide {
+  opacity: 0%; 
+}
+
+.wrap .reveal {
+  opacity: 100%; 
+}
+
+.heart {
+  margin-left: 2px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+button {
+  border: none;
+  background-color:transparent;
+}
+
+.now_num {
+  font-weight: bold;
+  color: #e74b4b;
+}
+
+.wrap #page_num {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.guide {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 22px;
+}
+
+/*voca.html*/
+.voca_form {
+  margin-right : 0px;
+}
+
+#voca_wrap input[type=text] {
+  border: 1px solid #d9d9d9;
+  width: 200px;
+  height: 50px;
+  padding-left: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  margin-bottom: 12px;
+  border-color: #767676;
+}
+
+#voca_wrap #q {
+  width: 60px;	
+}
+
+#voca_wrap .select {
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+  background-color: white;
+  width: 100px;
+  height: 45px;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+

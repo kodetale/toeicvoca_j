@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<link rel="stylesheet" href="/css/style.css">
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="join_wrap" class="wrap">
+    	<div class = "form_wrap">
+      		<h1>정보수정</h1>
+	 		<form name="edit_form">
+	 			<input type="hidden" th:value=${member.id} id="id">
+        		<label th:for="memberId" class="label">아이디  </label>
+         		<div class="form_line"><input type="text" th:value=${member.memberId} id="memberId" readonly>
+         		</div>
+         		<label th:for="password" class="label">비밀번호  <span id="errorPwd" class="errorMsg">
+         		[8자 이상 16자 이하로 입력해주세요]</span></label>
+         		<div class="form_line"><input type="password" id="password">
+         		</div>
+         		<label th:for="password" class="label">비밀번호 확인</label>
+         		<div class="form_line"><input type="password" id="password_ch">
+         		</div>
+         		<label th:for="name" class="label">이름 <span id="errorName" class="errorMsg">
+         		[8자 이하로 입력해주세요]</span></label>
+         		<div class="form_line"><input type="text" th:value="${member.name}" id="name">
+         		</div>
+        		<div class="form_line"><input type="button" value="정보수정" id="edit_btn" class="form_btn"></div>
+        		<div class="delete"><div id="del_btn">회원탈퇴</div></div>
+			</form>
+		</div>
+	</div>    
+</div>
+
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		
+ 		let index = {
+				init: function() {
+					$("#edit_btn").on("click", () => {
+					 	if(!$("#password").val().length == 0 && ($("#password").val().length < 8 || $("#password").val().length > 16)) {
+							var errorPwd = document.getElementById('errorPwd');
+							errorPwd.style['opacity'] = "100%";
+			 				return false;
+						} else if(password.value != password_ch.value) {
+							alert("비밀번호가 다릅니다. 다시 입력해주세요.")
+			 				return false;
+						} else if($("#name").val().length > 8) {
+							var errorName = document.getElementById('errorName');
+							errorName.style['opacity'] = "100%";
+							return false;
+						} else if(!($("#name").val())) {
+							var errorName = document.getElementById('errorName');
+							errorName.style['opacity'] = "100%";
+							return false;	
+						}  else {
+							this.edit();
+			 		    }  
+					})
+					
+					$("#del_btn").on("click", () => {
+						if(!confirm("정말 탈퇴하시겠습니까?")) {
+							return false;
+						} else {
+							this.del();
+						}
+					})
+				},
+				
+				edit: function() {
+					
+					let data = {
+							id: $("#id").val(),
+							memberId: $("#memberId").val(),
+							password: $("#password").val(),
+							name: $("#name").val()
+							
+					};
+					
+		    		var token = $("meta[name='_csrf']").attr("content");
+		        	var header = $("meta[name='_csrf_header']").attr("content");
+					
+					$.ajax({
+						
+						type: "PUT",
+						url: "/member/edit",
+						data: data,
+						contentType: "application/json",
+						contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+						beforeSend : function(xhr){
+			            	xhr.setRequestHeader(header, token);
+			        	},
+			        	
+					}).done(function(res) {
+						alert("정보수정이 완료되었습니다.");
+						location.href="/";
+					}).fail(function(error) {
+						alert(JSON.stringify(error));
+					})
+				},
+				
+				del: function() {
+					let data = {
+							id: $("#id").val(),
+							memberId: $("#memberId").val()
+					};
+					
+		    		var token = $("meta[name='_csrf']").attr("content");
+		        	var header = $("meta[name='_csrf_header']").attr("content");
+					
+					$.ajax({
+						
+						type: "POST",
+						url: "/member/edit",
+						data: data,
+						contentType: "application/json",
+						contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+						beforeSend : function(xhr){
+			            	xhr.setRequestHeader(header, token);
+			        	},
+			        	
+					}).done(function(res) {
+						alert("회원탈퇴가 완료되었습니다.");
+						location.href="/";
+					}).fail(function(error) {
+						alert(JSON.stringify(error));
+					})
+				} 
+				
+		}
+		
+		index.init();  
+		
+    </script>
+</th:block>
+</body>
+
+</html>

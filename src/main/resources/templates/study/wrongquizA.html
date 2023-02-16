@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/style.css">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="quiz_wrap" class="wrap">
+    	<div>
+    		<div class="day">DAY [[${quiz.day}]]</div>
+    		<div class="q"><h3>[[${q}]]/[[${total}]]</h3></div>
+    		<h1>[[${quiz.voca}]]<button type="button" id="read"><img src="/img/read.png" width="23px" height="18px"></button></h1>
+ 			<ul style="margin-top:30px;">
+  	  			<th:block th:each="i : ${#numbers.sequence(0,3)}">
+				<li class="list_ex">
+				<div>
+					<input type="radio" class="radio_btn" name="answer" th:id="'ex'+(${i}+1)" th:value="${ex[i]}" onclick="correctAns(this.id, this.value)"/>
+					<label th:id="'ex'+(${i}+1)+'_l'" th:for="'ex'+(${i}+1)"><span style="font-size:14px;">([[(${i}+1)]])&nbsp;</span>[[${ex[i]}]]</label>
+				</div>
+				</li>
+				</th:block>	
+  			</ul>
+ 		</div>
+  	</div>
+</div>
+
+ <th:block layout:fragment="script">
+    <script type="text/javascript">
+    	const read = document.getElementById("read")
+    	
+    	read.addEventListener("click", e => {
+      		speak('[[${quiz.voca}]]')
+    	})
+ 
+    	function speak(text) {
+      		if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
+          		alert("이 브라우저에서는 음성을 지원하지 않습니다")
+      		}
+      
+      		window.speechSynthesis.cancel()
+
+      		const speechMsg = new SpeechSynthesisUtterance()
+      		speechMsg.rate = 0.9   
+      		speechMsg.pitch = 1 
+      		speechMsg.lang = "en-US"
+      		speechMsg.text = text
+
+      		window.speechSynthesis.speak(speechMsg)
+  		}
+    
+		function correctAns(id, ex) {
+    	
+    		var token = $("meta[name='_csrf']").attr("content");
+        	var header = $("meta[name='_csrf_header']").attr("content");
+
+    		$.ajax({
+    	　　	type:'post', 
+    	  		contentType:'application/json', 
+    	  		data: {
+    				ex: ex,
+    				answer: '[[${quiz.answer}]]',
+    				day : '[[${quiz.day}]]',
+    				q : '[[${quiz.q}]]'				
+    	　　	}, 
+    	  		url: '/study/quizA', 
+    	  		contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+    	  		beforeSend : function(xhr){
+                	xhr.setRequestHeader(header, token);
+            	}, success: function(data) {
+    	　　　			if (data == "o") {
+            				document.getElementById(id + '_l').classList.toggle('o');
+            				setTimeout(function() {
+              					if([[${q}]] == [[${total}]]) {
+                					location.href="/study/wrongresult";
+              					} else {
+              						location.href="[[${#httpServletRequest.requestURI}]]?q=[[${q}+1]]";}}, 150);
+          				} else {
+            				document.getElementById(id + '_l').classList.toggle('x');
+            				setTimeout(function() {
+             					if([[${q}]] == [[${total}]]) {
+                					location.href="/study/wrongresult";
+              					} else {
+              						location.href="[[${#httpServletRequest.requestURI}]]?q=[[${q}+1]]";}}, 150);
+          
+          				}	
+    	　　	}, error:function(e) {
+    	　　　　	alert("error: " + e);
+    	　　	}		
+    		});
+    	}
+    </script>
+ </th:block>
+</body>
+
+</html>

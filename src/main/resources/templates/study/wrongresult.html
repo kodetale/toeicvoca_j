@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/style.css">
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="index_wrap" class="wrap">
+    	<div>
+      		<div class="main">
+        	<h1>오답퀴즈 결과</h1> 
+        	<div class="result"> 총 
+          		<span th:if="${cnt}" style="color:#38b635;">[[${cnt}]]개</span>
+				<span th:unless="${cnt}" style="color:#38b635;">0개</span> 맞았습니다.
+			</div>
+        	<form action="/study/wrong" method="GET">
+        		<input type="hidden" name="day" th:value=1>
+        		<input type="hidden" name="page" value=1>
+        		<p><input type="submit" value="오답노트" class="main_btn">
+        	</form>
+        	</div>
+		</div>
+	</div>
+ </div>
+</body>
+
+</html>

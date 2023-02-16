@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+      
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/style.css">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="wrong_wrap" class="wrap">
+    	<div class="w_day">
+      	<form action="wrong" id="start" method="get">    
+			<select id="w_day" name="day" class="select" onchange="this.form.submit()">
+				<th:block th:each="num : ${#numbers.sequence(1,30)}">
+					<option th:value="${num}" th:text="'DAY'+${num}" th:selected="${num} == ${day}"></option>
+        		</th:block>
+        	</select>
+       		<input type="hidden" name="page" value="1">  
+      	</form>
+		</div>
+		<div>
+		<th:block th:if="${quiz.size != 0}">
+          	<table class="w_table">
+          		<tr>
+          			<td width="35%">단어</td>
+          			<td width="54%">뜻</td>
+          			<td width="11%">삭제</td>
+        		</tr>
+        		<th:block th:each="quiz : ${quiz}">
+				<tr>
+					<td th:id ="${quiz.voca}" th:text="${quiz.voca}" onclick="speak(this.id)"></td>
+					<td th:id="${quiz.answer}" class="hide" th:text="${quiz.answer}" onclick="reveal(this.id)"></td>
+					<td><button type="button" th:id="${quiz.q}" onclick="deleteWrong(this.id)"><img src="/img/heart.png" class="heart"></button></td>
+				</tr>
+				</th:block>
+			</table>
+		
+		<div id ="page_num" th:with="start = ${start}, end = ${end}">
+        	<a th:each="num : ${#numbers.sequence(start,end)}" th:href="@{wrong(day=${day}, page=${num})}"
+       		th:classappend="${num} == ${page} ? 'now_num'">[[${"["+num+"]"}]]</a>
+        </div>
+        
+        <div class="guide">단어를 클릭하면 음성을 들을 수 있습니다.</div>
+		</th:block>
+    	
+    	<div th:unless="${quiz.size != 0}">저장된 오답이 없습니다.</div>
+  		</div>
+	</div>
+</div>
+  
+<th:block layout:fragment="script">
+	<script>
+   
+   function speak(id) {
+	    if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
+	        alert("이 브라우저에서는 음성을 지원하지 않습니다")
+	    }
+	    
+	    window.speechSynthesis.cancel() 
+
+	    const speechMsg = new SpeechSynthesisUtterance()
+	    speechMsg.rate = 0.9   
+	    speechMsg.pitch = 1
+	    speechMsg.lang = "en-US"
+	    speechMsg.text = document.getElementById(id).innerText
+
+	    window.speechSynthesis.speak(speechMsg)
+	
+   }
+   
+   	function reveal(id) {
+   		document.getElementById(id).classList.toggle('reveal');
+   	}
+   		
+   	function deleteWrong(q) {
+   	    var token = $("meta[name='_csrf']").attr("content");
+   	    var header = $("meta[name='_csrf_header']").attr("content");
+
+   	    	$.ajax({
+   	    	　　type:'post', 
+   	    	  	contentType:'application/json', 
+   	    	  	data: {
+   	    			day : "[[${day}]]",
+   	    			q : q
+   	    		}, 
+   	    		url: '/study/wrong', 
+   	    		contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+   	    		beforeSend : function(xhr){
+   	                xhr.setRequestHeader(header, token);
+   	            }, success: function() {
+   	            	location.reload();
+   	            }
+   	    	});
+	}
+   		
+	</script>
+</th:block>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="//code.jquery.com/jquery.min.js"></script>
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="index_wrap" class="wrap">    
+		<div class="main">
+      		<img src="/img/logo.png" width="70%">
+      		<form id="start" action="/study/wrongquizA" method="GET">
+            	<input type="hidden" name="q" value=1>
+            	<p><input type="submit" value="객관식 퀴즈" class="main_btn"></p>
+          	</form>
+
+          	<form id="start" action="/study/wrongquizB" method="GET">
+            	<input type="hidden" name="q" value=1>
+            	<p><input type="submit" value="주관식 퀴즈" class="main_btn"></p>
+          	</form>
+     	</div>
+	</div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+       
+    <div th:fragment="headerFragment" class="top">
+   	<div th:if="${#httpServletRequest.requestURI != '/'}">
+		<span class="return">
+    		<a href="/">< 돌아가기</a>
+    	</span>
+    </div>
+    
+	<th:block sec:authorize="isAuthenticated()">
+		<span class="logout">
+			<span th:text="${name}"></span>님(･ᴗ･)
+			<a href="/member/edit">정보수정</a> 
+			<a href="/member/logout">로그아웃</a>
+		</span>
+	</th:block>
+	</div><div style="clear:both;"></div>
+	   
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default_layout">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/css/style.css">
+	<title>TOEIC VOCA</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+	<div id="voca_wrap" class="wrap">
+    	<div class = "form_wrap">
+      		<h1>DAY[[${day}]]</h1>
+	 		<form action="/admin/voca" role="form" method="post" th:object="${quizDto}" >
+          		<input type="hidden" th:name="day" th:id="day" th:value="${day}">
+         		<div>
+         			<label for="q" class="label">번호</label>
+         			<input type="text" th:name="q" th:id="q" class="q_input">
+         		</div>
+         		<div>  
+         			<label for="voca" class="label">단어</label>
+         			<input type="text" th:field="*{voca}" class="voca_input">
+         		</div>
+         		<div>  
+         			<label for="answer" class="label">　뜻</label>
+         			<input type="text" th:field="*{answer}" class="voca_input">
+         		</div>
+         		<div>
+         			<label for="answer" class="label">품사</label>
+         			<select th:field="*{category}" class="select">
+          				<option th:value="'adj'" th:text="adj"></option>
+          				<option th:value="'adv'" th:text="adv"></option>
+          				<option th:value="'noun'" th:text="noun"></option>
+          				<option th:value="'prep'" th:text="prep"></option>
+          				<option th:value="'verb'" th:text="verb"></option>
+         			</select>
+         		</div>
+         		<div class="form_line"><input type="submit" value="문제등록" class="form_btn"></div>
+        		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+      		</form>
+    	</div>
+	</div>    
+</div>
+</body>
+
+</html>
